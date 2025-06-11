@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>結帳流程</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="CSS/style.css" />
+  <script src="JS/products.js"></script>
+  <style>
+    .list-group-item {
+      border-color: white !important;
+    }
+  </style>
+  <script src="main.js" defer></script>
+</head>
+<body >
+  <nav class="navbar navbar-expand-lg navbar-dark  sticky-top">
+    <a class="navbar-brand" id="nav_title" href="index.html">GO！起來團購網</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" id ="nav_text"href="index.html">首頁</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id ="nav_text" href="products.html" id="productDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            團購商品來看這
+          </a>
+          <div class="dropdown-menu" aria-labelledby="productDropdown">
+            <a class="dropdown-item"  href="products.html#household">生活用品</a>
+            <a class="dropdown-item"  href="products.html#food">美食</a>
+            <a class="dropdown-item"  href="products.html#coupon">餐券</a>
+          </div>
+        </li>
+      </ul>
+      <div class="ml-auto">
+        <a href="wishlist.html" id ="nav_botton"  class="btn btn-outline-warning mr-2" >❤️ 收藏清單</a>
+        <a href="cart.html" id="nav_botton"  class="btn btn-outline-light mr-2" >🛒 購物車</a>
+        <a href="member.html" id ="nav_botton"class="btn btn-outline-light mr-2" >👤 會員中心</a>
+        <button class="btn btn-outline-light" id ="nav_botton" data-toggle="modal" data-target="#authModal" >登入 / 註冊</button>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container py-5">
+    <h2 class="mb-4">🧾 結帳資訊</h2>
+    <div class="card  mb-4 border border-white" style="background-color: #ccd5ae;">
+      <div class="card-body">
+        <h5 class="card-title">🛍️ 訂單總覽</h5>
+        <ul id="orderSummaryList" class="list-group list-group-flush mb-3" ></ul>
+        <h5 id="totalAmount" class=" text-right" style="color: red;">總金額：NT$0</h5>
+      </div>
+    </div>
+    <form id="checkoutForm" class="needs-validation" novalidate>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="name">收件人姓名 *</label>
+          <input type="text" class="form-control" id="name" required>
+          <div class="invalid-feedback">請輸入姓名</div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="phone">電話 *</label>
+          <input type="tel" class="form-control" id="phone" required>
+          <div class="invalid-feedback">請輸入電話</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address">收件地址 *</label>
+        <input type="text" class="form-control" id="address" required>
+        <div class="invalid-feedback">請輸入地址</div>
+      </div>
+      <div class="form-group">
+        <label for="payment">付款方式 *</label>
+        <select class="form-control" id="payment" required>
+          <option value="">請選擇</option>
+          <option value="credit">信用卡</option>
+          <option value="cod">貨到付款</option>
+          <option value="store">超商取貨付款</option>
+        </select>
+        <div class="invalid-feedback">請選擇付款方式</div>
+      </div>
+      <button type="submit" class="btn btn-warning btn-block">✅ 確認結帳</button>
+    </form>
+  </div>
+  <!-- 按鈕 HTML，可直接放在 <body> 最底 -->
+    <button id="backToTop" title="回到頂端">↑</button>
+  <!-- 登入 / 註冊 Modal -->
+  <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content ">
+        <div class="modal-header border-0">
+        <h5 class="modal-title" id="authModalLabel">會員登入 / 註冊</h5>
+        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="color: black;">&times;</span>
+        </button>
+        </div>
+    <div class="modal-body">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#loginTab" role="tab" style="color: #03045e;font-size: 15px;">登入</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#registerTab" role="tab" style="color: #03045e;font-size: 15px;">註冊</a>
+        </li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="loginTab" role="tabpanel">
+          <form>
+            <div class="form-group">
+              <label for="loginEmail">帳號</label>
+              <input type="email" class="form-control" id="loginEmail" placeholder="輸入Email">
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">密碼</label>
+              <input type="password" class="form-control" id="loginPassword" placeholder="輸入密碼">
+            </div>
+            <button type="submit" class="btn  btn-block" style="background-color: #a0c4ff;">登入</button>
+          </form>
+        </div>
+        <div class="tab-pane" id="registerTab" role="tabpanel">
+          <form>
+            <div class="form-group">
+              <label for="registerEmail">帳號</label>
+              <input type="email" class="form-control" id="registerEmail" placeholder="輸入Email">
+            </div>
+            <div class="form-group">
+              <label for="registerPassword">密碼</label>
+              <input type="password" class="form-control" id="registerPassword" placeholder="輸入密碼">
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">確認密碼</label>
+              <input type="password" class="form-control" id="confirmPassword" placeholder="再次輸入密碼">
+            </div>
+            <button type="submit" class="btn  btn-block" style="background-color: #a0c4ff;">註冊</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- 驗證 Script -->
+  <script>
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        var form = document.getElementById('checkoutForm');
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          } else {
+            event.preventDefault();
+            // ① 取得購物車並寫入歷史訂單
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (cart.length) {
+              const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+              orders.push({
+                date: new Date().toLocaleString(),   // 時間戳記
+                items: cart                          // 整份購物車
+              });
+              localStorage.setItem('orders', JSON.stringify(orders));
+            }
+            // ② 清空購物車並跳轉感謝頁
+            localStorage.removeItem('cart');
+            window.location.href = 'thankyou.html';
+          }
+          form.classList.add('was-validated');
+        }, false);
+      }, false);
+
+      // 顯示訂單總覽
+      const orderSummaryList = document.getElementById('orderSummaryList');
+      const totalAmountEl = document.getElementById('totalAmount');
+      const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+
+      if (cartItems.length === 0) {
+        orderSummaryList.innerHTML = "<li class='list-group-item '>購物車是空的</li>";
+        totalAmountEl.textContent = "總金額：NT$0";
+      } else {
+        let total = 0;
+        cartItems.forEach(item => {
+          const qty = item.quantity || 1;
+          const subtotal = item.price * qty;
+          total += subtotal;
+
+          const li = document.createElement('li');
+          li.className = 'list-group-item bg-dark text-light d-flex justify-content-between';
+          li.innerHTML = `<span>${item.name} x${qty}</span><span>NT$${subtotal}</span>`;
+          orderSummaryList.appendChild(li);
+        });
+        totalAmountEl.textContent = `總金額：NT$${total}`;
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ / 聯絡我們</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="CSS/style.css" />
+</head>
+<body >
+  <!-- 導覽列 -->
+  <nav class="navbar navbar-expand-lg navbar-dark  sticky-top">
+    <a class="navbar-brand" id="nav_title" href="index.html">GO！起來團購網</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" id ="nav_text"href="index.html">首頁</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id ="nav_text" href="products.html" id="productDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            團購商品來看這
+          </a>
+          <div class="dropdown-menu" aria-labelledby="productDropdown">
+            <a class="dropdown-item"  href="products.html#household">生活用品</a>
+            <a class="dropdown-item"  href="products.html#food">美食</a>
+            <a class="dropdown-item"  href="products.html#coupon">餐券</a>
+          </div>
+        </li>
+      </ul>
+      <div class="ml-auto">
+        <a href="wishlist.html" id ="nav_botton"  class="btn btn-outline-warning mr-2" >❤️ 收藏清單</a>
+        <a href="cart.html" id="nav_botton"  class="btn btn-outline-light mr-2" >🛒 購物車</a>
+        <a href="member.html" id ="nav_botton"class="btn btn-outline-light mr-2" >👤 會員中心</a>
+        <button class="btn btn-outline-light" id ="nav_botton" data-toggle="modal" data-target="#authModal" >登入 / 註冊</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 內容 -->
+  <div class="container py-5">
+    <!-- FAQ 區 -->
+    <h2 class=" mb-4">❓ 常見問題 FAQ</h2>
+    <div id="faqAccordion" class="accordion" >
+      <div class="card " style="background-color:#eae4e9">
+        <div class="card-header" id="faq1">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1" style="color: black;">Q1. 如何加入購物車？</button>
+          </h5>
+        </div>
+        <div id="collapse1" class="collapse show" aria-labelledby="faq1" data-parent="#faqAccordion">
+          <div class="card-body">在商品卡片或商品詳情頁點擊「加入購物車」按鈕即可，系統會自動將商品存入購物車。</div>
+        </div>
+      </div>
+      <div class="card " style="background-color:#eae4e9">
+        <div class="card-header" id="faq2">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed t" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2"  style="color: black;">Q2. 結帳可使用哪些付款方式？</button>
+          </h5>
+        </div>
+        <div id="collapse2" class="collapse" aria-labelledby="faq2" data-parent="#faqAccordion">
+          <div class="card-body">目前支援信用卡、貨到付款及超商取貨付款。</div>
+        </div>
+      </div>
+      <div class="card " style="background-color:#eae4e9">
+        <div class="card-header" id="faq3">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3" style="color: black;">Q3. 如何查看我的訂單？</button>
+          </h5>
+        </div>
+        <div id="collapse3" class="collapse" aria-labelledby="faq3" data-parent="#faqAccordion">
+          <div class="card-body">登入後可於「會員中心 > 歷史消費紀錄」查看所有訂單資訊。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 聯絡我們 -->
+    <h2 class=" mt-5 mb-4">📨 聯絡我們 Contact Us</h2>
+    <form id="contactForm" class="needs-validation" novalidate>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="contactName">姓名 *</label>
+          <input type="text" class="form-control" id="contactName" required>
+          <div class="invalid-feedback">請輸入您的姓名</div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="contactEmail">Email *</label>
+          <input type="email" class="form-control" id="contactEmail" required>
+          <div class="invalid-feedback">請輸入正確的 Email</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="contactMessage">訊息 *</label>
+        <textarea id="contactMessage" class="form-control" rows="4" required></textarea>
+        <div class="invalid-feedback">請輸入您的訊息</div>
+      </div>
+      <button type="submit" class="btn btn-warning btn-block">送出訊息</button>
+    </form>
+    <!-- 留言板 -->
+    <h2 class=" mt-5 mb-3">📝 留言板 Message Board</h2>
+    <form id="messageBoardForm" class="mb-4">
+      <div class="form-group">
+        <label for="msgName">暱稱</label>
+        <input type="text" id="msgName" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label for="msgContent">留言內容</label>
+        <textarea id="msgContent" class="form-control" rows="3" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="msgRating">評分</label>
+        <select id="msgRating" class="form-control">
+          <option value="5">5 - 非常滿意</option>
+          <option value="4">4 - 滿意</option>
+          <option value="3">3 - 普通</option>
+          <option value="2">2 - 不滿意</option>
+          <option value="1">1 - 非常不滿意</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-warning">送出留言</button>
+    </form>
+    <ul id="messageList" class="list-group bg-dark"></ul>
+  </div>
+
+  <!-- 回到頂端按鈕 -->
+  <button id="backToTop" title="回到頂端">↑</button>
+
+  <!-- 登入 / 註冊 Modal (共用) -->
+  <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content ">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="authModalLabel">會員登入 / 註冊</h5>
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="color: black;">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- 內容略，可複製原登入 / 註冊區 -->
+          請登入或註冊以繼續。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap & 共用 JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    // 回到頂端
+    const backBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll',()=>{
+      backBtn.style.display = (window.scrollY>300)?'flex':'none';
+    });
+    backBtn.addEventListener('click',()=>{
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    // 聯絡我們表單驗證
+    (function(){
+      'use strict';
+      const form = document.getElementById('contactForm');
+      form.addEventListener('submit',e=>{
+        if(!form.checkValidity()){
+          e.preventDefault();e.stopPropagation();
+        }else{
+          e.preventDefault();
+          alert('✅ 訊息已送出，我們會盡快回覆！');
+          form.reset();
+        }
+        form.classList.add('was-validated');
+      });
+    })();
+
+    // 留言板功能
+    const messageForm = document.getElementById('messageBoardForm');
+    const messageList = document.getElementById('messageList');
+
+    function renderMessages() {
+      const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+      messageList.innerHTML = '';
+      messages.forEach(msg => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item bg-secondary text-light mb-1';
+        li.innerHTML = `<strong>${msg.name}</strong> (${msg.rating}⭐) - <small>${msg.timestamp}</small><br>${msg.content}`;
+        messageList.appendChild(li);
+      });
+    }
+
+    messageForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('msgName').value.trim();
+      const content = document.getElementById('msgContent').value.trim();
+      if (!name || !content) return;
+      const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+      const timestamp = new Date().toLocaleString();
+      const rating = parseInt(document.getElementById('msgRating').value);
+      messages.push({ name, content, rating, timestamp });
+      localStorage.setItem('messages', JSON.stringify(messages));
+      messageForm.reset();
+      renderMessages();
+    });
+
+    renderMessages();
+  </script>
+</body>
+</html>

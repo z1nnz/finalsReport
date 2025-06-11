@@ -1,0 +1,179 @@
+body {
+  background-color: #edede9;
+  /*color: #f0f0f0;*/
+  font-family:'Times New Roman', 標楷體;  
+}
+
+
+.navbar {
+  /*border-bottom: 2px solid #E2ECE9;*/
+  background-color: #faedcd;
+  
+}
+
+#nav_title{
+  color:black;
+  font-size: 30px;
+}
+
+#nav_text{
+  color:black;
+  font-size: 30px;
+   
+}
+#nav_botton{
+  border-radius: 20px;
+  border: #d4a373 5px solid;  
+  color:black;
+  font-size: 30px;
+}
+
+#footer_all{
+  background-color: #faedcd;
+  color: black;
+  font-size: 30px;
+}
+
+.modal-content{
+  background-color: #e8e8e4;
+}
+.product_title{
+  color: #78290f;
+  font-weight: bold;
+  padding: 10px 0px;
+}
+
+/*
+.carousel-inner img {
+  height: 400px;
+  object-fit: cover;
+}
+  */
+
+  /*
+h2 {
+  color: #ffc107;
+  font-weight: bold;
+}
+*/
+
+.home_product_title{
+  color: #6f1d1b;
+  font-weight: bold;
+  padding: 10px 0px;
+}
+
+.product-card {
+  height: 600px;
+  background-color: #e8e8e4;
+  border: 3px solid #d4a373 ;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px #03045e;
+}
+
+.member_card{
+  background-color: #E2ECE9;
+}
+
+.card-img_border{
+  text-align: center;
+  width: 350px;
+  height: 350px;
+}
+
+.card-img-top{
+  width: 340px;
+  height: 350px;
+  border-radius: 15px;
+}
+.FAQ{
+  width: 1100px;
+  text-align: center;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  padding: 20px 0px;
+  margin: 10px 0px;
+  border-radius: 10px;
+  border: 5px solid #d4a373;
+}
+
+.FAQ_content{
+  text-align: left; padding: 0px 10px; font-size: 20px;
+}
+/*
+.card-title {
+  color: #ffffff;
+}
+
+.card-text {
+  color: #ffffff;
+}
+*/
+
+.member_title{
+  font-size: 30px;
+  font-weight: bold;
+  padding: 10px 0px;
+}
+
+.member_content{
+  font-size: 18px;
+}
+.btn_faq{
+  color:#0077b6;
+  font-size: 25px;
+  border-color: #03045e;
+}
+
+.btn-outline-warning {
+  border-color: #4361ee;
+  color: #023e8a;
+}
+
+.btn-outline-warning:hover {
+  background-color: #48cae4;
+  color: #121212;
+  font-weight: bold;
+}
+
+.text-warning {
+  color: #9381ff !important;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+footer {
+  border-top: 1px solid #444;
+}
+
+@media (max-width: 768px) {
+  .carousel-inner img {
+    height: 250px;
+  }
+}
+/* 回到頂端按鈕 */
+#backToTop {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ffc107; /* 亮黃色呼應主題 */
+  color: #000;
+  border: none;
+  display: none; /* 預設隱藏 */
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1050; /* 高於一般內容但低於 Modal */
+}
+#backToTop:hover {
+  background: #ffdb4d;
+}

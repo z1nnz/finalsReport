@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>購物車</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="CSS/style.css">
+  <script src="JS/main.js" defer></script>
+  <script src="JS/products.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    window.onload = function () {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const products = JSON.parse(localStorage.getItem("products") || "[]");
+      const container = document.getElementById("cart-items");
+      let total = 0;
+      container.innerHTML = "";
+
+      cart.forEach((item, index) => {
+        const matched = products.find(p => p.id === item.id) || products.find(p => p.name === item.name);
+        const imageUrl = matched ? matched.image : "img/default.jpg";
+        const productId = matched ? matched.id : (item.id || null);
+        const subtotal = item.price * (item.quantity || 1);
+        total += subtotal;
+        const link = productId !== null
+          ? `product-detail.html?id=${productId}`
+          : `product-detail.html?name=${encodeURIComponent(item.name)}`;
+
+        const html = `
+          <div class="cart-item mb-4 p-3  rounded d-flex" style="background-color: white; border:2px solid black">
+            <a href="${link}">
+              <img src="${imageUrl}" alt="${item.name}" style="width:150px;height:150px;object-fit:cover" class="mr-3">
+            </a>
+            <div class="flex-grow-1 d-flex justify-content-between align-items-center">
+              <div>
+                <h5><a href="${link}" class="text-warning" >${item.name}</a></h5>
+                <p style="font-size:20px;">單價 NT$${item.price} × 數量 ${item.quantity || 1}</p>
+                <p style="font-size:20px;">小計：NT$${subtotal}</p>
+              </div>
+              <button class="btn btn-sm " onclick="removeItem(${index})" style="font-size:20px; color:white; background-color:red; border-radius:10px;">刪除</button>
+            </div>
+          </div>`;
+        container.innerHTML += html;
+      });
+
+      document.getElementById("cart-total").textContent = total;
+    }
+
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      window.onload();
+    }
+  </script>
+</head>
+<body>
+
+  <!-- 導覽列 -->
+  <nav class="navbar navbar-expand-lg navbar-dark  sticky-top">
+    <a class="navbar-brand" id="nav_title" href="index.html">GO！起來團購網</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" id ="nav_text"href="index.html">首頁</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id ="nav_text" href="products.html" id="productDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            團購商品來看這
+          </a>
+          <div class="dropdown-menu" aria-labelledby="productDropdown">
+            <a class="dropdown-item"  href="products.html#household">生活用品</a>
+            <a class="dropdown-item"  href="products.html#food">美食</a>
+            <a class="dropdown-item"  href="products.html#coupon">餐券</a>
+          </div>
+        </li>
+      </ul>
+      <div class="ml-auto">
+        <a href="wishlist.html" id ="nav_botton"  class="btn btn-outline-warning mr-2" >❤️ 收藏清單</a>
+        <a href="cart.html" id="nav_botton"  class="btn btn-outline-light mr-2" >🛒 購物車</a>
+        <a href="member.html" id ="nav_botton"class="btn btn-outline-light mr-2" >👤 會員中心</a>
+        <button class="btn btn-outline-light" id ="nav_botton" data-toggle="modal" data-target="#authModal" >登入 / 註冊</button>
+      </div>
+    </div>
+  </nav>
+  <!-- 登入 / 註冊 Modal -->
+    <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content ">
+            <div class="modal-header border-0">
+            <h5 class="modal-title" id="authModalLabel">會員登入 / 註冊</h5>
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" style="color: black;">&times;</span>
+            </button>
+            </div>
+        <div class="modal-body">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs mb-3" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#loginTab" role="tab" style="color: #03045e;font-size: 15px;">登入</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#registerTab" role="tab" style="color: #03045e;font-size: 15px;">註冊</a>
+            </li>
+          </ul>
+  
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="loginTab" role="tabpanel">
+              <form>
+                <div class="form-group">
+                  <label for="loginEmail">帳號</label>
+                  <input type="email" class="form-control" id="loginEmail" placeholder="輸入Email">
+                </div>
+                <div class="form-group">
+                  <label for="loginPassword">密碼</label>
+                  <input type="password" class="form-control" id="loginPassword" placeholder="輸入密碼">
+                </div>
+                <button type="submit" class="btn  btn-block" style="background-color: #a0c4ff;">登入</button>
+              </form>
+            </div>
+            <div class="tab-pane" id="registerTab" role="tabpanel">
+              <form>
+                <div class="form-group">
+                  <label for="registerEmail">帳號</label>
+                  <input type="email" class="form-control" id="registerEmail" placeholder="輸入Email">
+                </div>
+                <div class="form-group">
+                  <label for="registerPassword">密碼</label>
+                  <input type="password" class="form-control" id="registerPassword" placeholder="輸入密碼">
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword">確認密碼</label>
+                  <input type="password" class="form-control" id="confirmPassword" placeholder="再次輸入密碼">
+                </div>
+                <button type="submit" class="btn  btn-block" style="background-color: #a0c4ff;">註冊</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 購物車內容 -->
+  <div class="container mt-5 ">
+    <h2 class="mb-4">🛒 我的購物車</h2>
+    <div id="cart-items" class="card_item"></div>
+    <p style="color:red ;font-size:30px; font-weight: bold;">總金額：NT$<span id="cart-total">0</span></p>
+    <a href="checkout.html" class="btn btn-outline-success mt-3" style="font-size: 20px;margin: 10px 0px; color:black;">前往結帳</a>
+  </div>
+
+  <!-- 按鈕 HTML，可直接放在 <body> 最底 -->
+  <button id="backToTop" title="回到頂端">↑</button>
+
+  <footer class="text-center py-3" id="footer_all" >
+    GO！起來團購網 &copy; 2025 - 所有權利保留
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>會員中心</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="CSS/style.css">
+  <script src="JS/main.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const orderList = document.getElementById('orderList');
+      const totalEl = document.getElementById('orderTotal');
+      const clearBtn = document.getElementById('clearOrders');
+
+      let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+
+      if (orders.length === 0) {
+        orderList.innerHTML = "<div >尚無消費紀錄</div>";
+        totalEl.textContent = "總消費金額：NT$0";
+        return;
+      }
+
+      let grandTotal = 0;
+
+      orders.slice().reverse().forEach((order, index) => {
+        let subtotal = 0;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'mb-3 p-2 border border-light rounded';
+
+        // 單筆刪除按鈕
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn btn-sm btn-danger mb-1';
+        deleteBtn.textContent = '🗑️ 刪除';
+        deleteBtn.addEventListener('click', () => {
+          if (confirm('確定要刪除此筆訂單？')) {
+            orders.splice(orders.length - 1 - index, 1);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            location.reload();
+          }
+        });
+        // 新增評論按鈕
+        const commentBtn = document.createElement('button');
+        commentBtn.className = 'btn btn-sm btn-info';
+        commentBtn.textContent = '💬 評論';
+        // 按鈕群組容器
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'd-flex flex-column align-items-end gap-1';
+        btnGroup.appendChild(deleteBtn);
+        btnGroup.appendChild(commentBtn);
+        wrapper.appendChild(btnGroup);
+
+        const title = document.createElement('div');
+        title.className = 'font-weight-bold';
+        title.textContent = `🧾 訂單時間：${order.date}`;
+        wrapper.appendChild(title);
+
+        const ul = document.createElement('ul');
+        ul.className = 'list-group list-group-flush';
+
+        order.items.forEach(item => {
+          const qty = item.quantity || 1;
+          const cost = item.price * qty;
+          subtotal += cost;
+
+          const li = document.createElement('li');
+          li.className = 'list-group-item bg-secondary text-light d-flex align-items-center';
+          li.innerHTML = `<span class="mr-2">${item.name} x${qty}</span><span class="ml-auto">NT$${cost}</span>`;
+          ul.appendChild(li);
+        });
+
+        const subtotalEl = document.createElement('div');
+        subtotalEl.className = 'text-right mt-2 text-info';
+        subtotalEl.textContent = `小計：NT$${subtotal}`;
+        grandTotal += subtotal;
+
+        // 將商品清單與右側按鈕包成 Flex 容器，分為左右兩側
+        const rowWrapper = document.createElement('div');
+        rowWrapper.className = 'd-flex justify-content-between align-items-start';
+
+        const leftSide = document.createElement('div');
+        leftSide.appendChild(ul);
+
+        const rightSide = document.createElement('div');
+        rightSide.className = 'text-right';
+        rightSide.appendChild(btnGroup);
+        rightSide.appendChild(subtotalEl);
+
+        rowWrapper.appendChild(leftSide);
+        rowWrapper.appendChild(rightSide);
+        wrapper.appendChild(rowWrapper);
+
+
+        // 建立隱藏的評論輸入區塊
+        const commentArea = document.createElement('div');
+        commentArea.className = 'mt-2 p-2 bg-dark rounded';
+        commentArea.style.display = 'none';
+
+        // 星等選單
+        const starLabel = document.createElement('label');
+        starLabel.textContent = '星等：';
+        starLabel.className = 'mr-2 text-light';
+        commentArea.appendChild(starLabel);
+
+        const starSelect = document.createElement('select');
+        starSelect.className = 'form-control form-control-sm d-inline-block w-auto mr-3';
+        for (let i = 5; i >= 1; i--) {
+          const option = document.createElement('option');
+          option.value = i;
+          option.textContent = '★'.repeat(i) + '☆'.repeat(5 - i);
+          starSelect.appendChild(option);
+        }
+        commentArea.appendChild(starSelect);
+
+        // 文字輸入欄位
+        const commentInput = document.createElement('input');
+        commentInput.type = 'text';
+        commentInput.className = 'form-control form-control-sm d-inline-block w-50 mr-3';
+        commentInput.placeholder = '請輸入評論內容';
+        commentArea.appendChild(commentInput);
+
+        // 送出按鈕
+        const submitBtn = document.createElement('button');
+        submitBtn.className = 'btn btn-sm btn-success';
+        submitBtn.textContent = '送出';
+        commentArea.appendChild(submitBtn);
+
+        wrapper.appendChild(commentArea);
+
+        commentBtn.addEventListener('click', () => {
+          commentArea.style.display = commentArea.style.display === 'none' ? 'block' : 'none';
+        });
+
+        submitBtn.addEventListener('click', () => {
+          const stars = starSelect.value;
+          const text = commentInput.value.trim();
+          if (text === '') {
+            alert('請輸入評論內容');
+            return;
+          }
+          // 新增評論到評論區塊
+          const commentsList = document.getElementById('commentsList');
+          if (!commentsList) return;
+          const li = document.createElement('li');
+          li.className = 'list-group-item bg-dark text-light';
+          li.textContent = `${order.date}：${'★'.repeat(stars)}${'☆'.repeat(5 - stars)} - ${text}`;
+          commentsList.appendChild(li);
+
+          // 清空輸入欄並隱藏輸入區
+          commentInput.value = '';
+          starSelect.value = 5;
+          commentArea.style.display = 'none';
+        });
+
+        orderList.appendChild(wrapper);
+      });
+
+      totalEl.textContent = `總消費金額：NT$${grandTotal}`;
+
+    });
+    </script>
+</head>
+<body >
+
+  <nav class="navbar navbar-expand-lg navbar-dark  sticky-top">
+    <a class="navbar-brand" id="nav_title" href="index.html">GO！起來團購網</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" id ="nav_text"href="index.html">首頁</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id ="nav_text" href="products.html" id="productDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            團購商品來看這
+          </a>
+          <div class="dropdown-menu" aria-labelledby="productDropdown">
+            <a class="dropdown-item"  href="products.html#household">生活用品</a>
+            <a class="dropdown-item"  href="products.html#food">美食</a>
+            <a class="dropdown-item"  href="products.html#coupon">餐券</a>
+          </div>
+        </li>
+      </ul>
+      <div class="ml-auto">
+        <a href="wishlist.html" id ="nav_botton"  class="btn btn-outline-warning mr-2" >❤️ 收藏清單</a>
+        <a href="cart.html" id="nav_botton"  class="btn btn-outline-light mr-2" >🛒 購物車</a>
+        <a href="member.html" id ="nav_botton"class="btn btn-outline-light mr-2" >👤 會員中心</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container py-5">
+    <h2 class="text-info mb-4">👤 會員資料</h2>
+    <div class="card  mb-4 member_card">
+      <div class="card-body">
+        <h5 class="member_title">基本資料</h5>
+        <p class="member_content"><strong>姓名：</strong> 王小明</p>
+        <p class="member_content"><strong>Email：</strong> example@mail.com</p>
+        <p class="member_content"><strong>會員註冊日期：</strong> 2024-11-05</p>
+      </div>
+    </div>
+
+    <div class="card member_card mb-4">
+      <div class="card-body">
+        <h5 class="member_title">歷史消費紀錄</h5>
+        <div id="orderList"  class="member_content" style="padding: 10px 0px;"></div>
+        <h5 id="orderTotal" style="color: red;font-weight: bold;">總消費金額：NT$0</h5>
+      </div>
+    </div>
+
+    <div class="card member_card">
+      <div class="card-body">
+        <h5 class="member_title">評論與評分紀錄</h5>
+        <ul id="commentsList" class="list-group list-group-flush">
+          <li class="list-group-item " style="background-color: #fffffc; font-size: 18px;">洗衣精：★★★★★ - 家庭主婦的最愛，回購+1！</li>
+          <li class="list-group-item " style="background-color: #fffffc; font-size: 18px;">服務品質：★★★★☆ - 店家親切，服務周到！</li>
+          <li class="list-group-item " style="background-color: #fffffc; font-size: 18px;">價格：★★★★☆ - 價格合理，買多有更多優惠喔！</li>
+          <li class="list-group-item " style="background-color: #fffffc; font-size: 18px;">店家總評：★★★★★ - 推廣+1，宣傳+1，大家支持起來！</li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- 按鈕 HTML，可直接放在 <body> 最底 -->
+    <button id="backToTop" title="回到頂端">↑</button>
+    <footer class="text-center py-3" id="footer_all" >
+      GO！起來團購網 &copy; 2025 - 所有權利保留
+    </footer>
+  </body>
+</html>

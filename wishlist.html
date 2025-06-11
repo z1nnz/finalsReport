@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>收藏清單</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="CSS/style.css">
+  <script src="JS/main.js" defer></script>
+</head>
+<body >
+  <nav class="navbar navbar-expand-lg navbar-dark  sticky-top">
+    <a class="navbar-brand" id="nav_title" href="index.html">GO！起來團購網</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" id ="nav_text"href="index.html">首頁</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id ="nav_text" href="products.html" id="productDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            團購商品來看這
+          </a>
+          <div class="dropdown-menu" aria-labelledby="productDropdown">
+            <a class="dropdown-item"  href="products.html#household">生活用品</a>
+            <a class="dropdown-item"  href="products.html#food">美食</a>
+            <a class="dropdown-item"  href="products.html#coupon">餐券</a>
+          </div>
+        </li>
+      </ul>
+      <div class="ml-auto">
+        <a href="wishlist.html" id ="nav_botton"  class="btn btn-outline-warning mr-2" >❤️ 收藏清單</a>
+        <a href="cart.html" id="nav_botton"  class="btn btn-outline-light mr-2" >🛒 購物車</a>
+        <a href="member.html" id ="nav_botton"class="btn btn-outline-light mr-2" >👤 會員中心</a>
+        <button class="btn btn-outline-light" id ="nav_botton" data-toggle="modal" data-target="#authModal" >登入 / 註冊</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    <h2 class="mb-4 text-warning">❤️ 我的收藏清單</h2>
+    <div id="wishlistContainer" class="row"></div>
+    <p id="emptyMessage" class="text-center text-muted">目前尚未收藏任何商品。</p>
+  </div>
+  <!-- 按鈕 HTML，可直接放在 <body> 最底 -->
+    <button id="backToTop" title="回到頂端">↑</button>
+  <script>
+    const wishlistContainer = document.getElementById('wishlistContainer');
+    const emptyMessage = document.getElementById('emptyMessage');
+
+    function loadWishlist() {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      wishlistContainer.innerHTML = '';
+
+      if (wishlist.length === 0) {
+        emptyMessage.style.display = 'block';
+        return;
+      }
+
+      emptyMessage.style.display = 'none';
+
+      wishlist.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4';
+        card.innerHTML = `
+          <div class="card h-100" style="background-color:#ece4db; border:5px solid #d5bdaf; border-radius:10px">
+            <div style="text-align:center;"><img src="${product.image}"  alt="${product.name}" style="width:330px; height:330px; border:1px solid black;border-radius:10px"></div>
+            <div class="card-body">
+              <h5 style="font-size:25px;font-weight:bold;">${product.name}</h5>
+              <p style="font-size:20px;">$${product.price}</p>
+              <a href="product-detail.html?name=${encodeURIComponent(product.name)}" class="btn btn-sm mr-2" style="font-size:20px; border-color: #4361ee; color: #023e8a; border-radius:10px;background-color:#ade8f4">查看商品</a>
+              <button class="btn btn-sm" onclick="removeFromWishlist('${product.name}')" style="color:white;background-color:red;font-size:20px; border-radius:10px;">刪除</button>
+            </div>
+          </div>`;
+        wishlistContainer.appendChild(card);
+      });
+    }
+
+    function removeFromWishlist(name) {
+      let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      wishlist = wishlist.filter(item => item.name !== name);
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      loadWishlist(); // 重新渲染畫面
+    }
+
+    document.addEventListener('DOMContentLoaded', loadWishlist);
+  </script>
+</body>
+</html>
